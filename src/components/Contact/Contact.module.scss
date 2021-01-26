@@ -1,0 +1,17 @@
+@import 'styles/shared.scss';
+
+.listItem {
+  margin-bottom: 5px;
+  display: flex;
+}
+
+.name {
+  min-width: 40%;
+}
+
+.number {
+}
+
+.btn {
+  margin-left: auto;
+}

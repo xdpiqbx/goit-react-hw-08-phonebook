@@ -1,0 +1,34 @@
+{
+  "contacts": [
+    {
+      "id": 0,
+      "name": "Donald Trump",
+      "phone": "067-987-8970"
+    },
+    {
+      "id": 1,
+      "name": "Joe Biden",
+      "phone": "897-789-7890"
+    },
+    {
+      "id": 2,
+      "name": "Barack Obama",
+      "phone": "789-890-3451"
+    },
+    {
+      "id": 3,
+      "name": "Abraham Lincoln",
+      "phone": "650-543-4800"
+    },
+    {
+      "id": 4,
+      "name": "Grover Cleveland",
+      "phone": "879-232-0989"
+    },
+    {
+      "id": 5,
+      "name": "Ronald Reagan",
+      "phone": "653-798-7890"
+    }
+  ]
+}
