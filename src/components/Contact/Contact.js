@@ -5,16 +5,16 @@ import { deleteContact } from '../../redux/operations';
 
 import s from './Contact.module.scss';
 
-const Contact = ({ contact }) => {
+const Contact = ({ contact: { name, phone, id } }) => {
   const dispatch = useDispatch();
   return (
     <li className={s.listItem}>
-      <span className={s.name}>{contact.name}: </span>
-      <span className={s.number}>{contact.phone}</span>
+      <span className={s.name}>{name}: </span>
+      <span className={s.number}>{phone}</span>
       <button
         className={s.btn}
         type="button"
-        onClick={() => dispatch(deleteContact(contact.id))}
+        onClick={() => dispatch(deleteContact(id))}
       >
         Delete
       </button>
@@ -25,6 +25,7 @@ const Contact = ({ contact }) => {
 export default Contact;
 
 Contact.propTypes = {
-  contact: PropTypes.object
+  name: PropTypes.string,
+  phone: PropTypes.string,
+  id: PropTypes.string,
 };
-
