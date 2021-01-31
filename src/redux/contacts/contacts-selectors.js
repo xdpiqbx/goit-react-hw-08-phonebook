@@ -17,14 +17,10 @@ export const getFilteredContacts = createSelector(
   },
 );
 
-// export const getFilteredContacts = state => {
-//   const filter = getFilter(state);
-//   const contacts = getAllContacts(state);
-//   if (filter) {
-//     return contacts.filter(contact =>
-//       contact.name.toLowerCase().includes(filter.toLowerCase()),
-//     );
-//   } else {
-//     return contacts;
-//   }
-// };
+const contactsSelectors = {
+  getFilter,
+  getAllContacts,
+  getLoading,
+  getFilteredContacts,
+};
+export default contactsSelectors;

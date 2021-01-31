@@ -1,31 +1,55 @@
 import { useEffect } from 'react';
-import { connect } from 'react-redux';
-import s from './App.module.scss';
-import ContactForm from './components/ContactForm/ContactForm ';
-import ContactList from './components/ContactList';
-import Filter from './components/Filter';
-import { fetchedContacts } from './redux/operations';
+import { Switch } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-const App = ({fetchedContacts}) => {
+import Container from './components/Container';
+import AppBar from './components/AppBar';
+import HomeView from './views/HomeView';
+import ContactsView from './views/ContactsView';
+import RegisterView from './views/RegisterView';
+import LoginView from './views/LoginView';
 
-  useEffect(()=>{
-    fetchedContacts()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+import PublicRoute from './components/PublicRoute';
+import PrivateRoute from './components/PrivateRoute';
+import { authOperations, authSelectors } from './redux/auth';
+
+const App = () => {
+  const dispatch = useDispatch();
+  const isFetchingCurrentUser = useSelector(
+    authSelectors.getIsFetchingCurrentUser,
+  );
+
+  useEffect(() => {
+    dispatch(authOperations.fetchCurrentUser());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <div className={s.AppContainer}>
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <h2 className={s.contacts__title}>Contacts</h2>
-      <Filter />
-      <ContactList />
-    </div>
+    !isFetchingCurrentUser && (
+      <Container>
+        <AppBar />
+        <Switch>
+          <PublicRoute exact path="/">
+            <HomeView />
+          </PublicRoute>
+          <PublicRoute exact path="/register" restricted={true} redirectTo="/">
+            <RegisterView />
+          </PublicRoute>
+          <PublicRoute
+            exact
+            path="/login"
+            restricted={true}
+            redirectTo="/contacts"
+          >
+            <LoginView />
+          </PublicRoute>
+          <PrivateRoute path="/contacts" redirectTo="/login">
+            <ContactsView />
+          </PrivateRoute>
+        </Switch>
+      </Container>
+    )
   );
-}
+};
 
-const mapDispatchToProps = dispatch => ({
-  fetchedContacts: () => dispatch(fetchedContacts())
-})
-
-export default connect(null, mapDispatchToProps)(App);
+export default App;

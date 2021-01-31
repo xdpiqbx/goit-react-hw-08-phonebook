@@ -2,20 +2,20 @@ import {
   fetchContactsRequest,
   fetchContactsSuccess,
   fetchContactsError,
-
   addContactRequest,
   addContactSuccess,
   addContactError,
-
   deleteContactRequest,
   deleteContactSuccess,
   deleteContactError,
-} from './actions';
+  patchContactRequest,
+  patchContactSuccess,
+  patchContactError,
+} from './contacts-actions';
 
 import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:4040';
 
-export const fetchedContacts = () => dispatch => {
+const fetchedContacts = () => dispatch => {
   dispatch(fetchContactsRequest());
   axios
     .get('/contacts')
@@ -23,7 +23,7 @@ export const fetchedContacts = () => dispatch => {
     .catch(error => dispatch(fetchContactsError(error)));
 };
 
-export const addContact = contact => dispatch => {
+const addContact = contact => dispatch => {
   dispatch(addContactRequest());
   axios
     .post('/contacts', contact)
@@ -31,10 +31,27 @@ export const addContact = contact => dispatch => {
     .catch(error => dispatch(addContactError(error)));
 };
 
-export const deleteContact = contactId => dispatch => {
+const deleteContact = contactId => dispatch => {
   dispatch(deleteContactRequest());
   axios
     .delete(`/contacts/${contactId}`)
     .then(() => dispatch(deleteContactSuccess(contactId)))
     .catch(error => dispatch(deleteContactError(error)));
 };
+
+const patchContact = (contactId, patchedContact) => dispatch => {
+  dispatch(patchContactRequest());
+  axios
+    .patch(`/contacts/${contactId}`, patchedContact)
+    .then(({ data }) => dispatch(patchContactSuccess(data)))
+    .catch(error => dispatch(patchContactError(error)));
+};
+
+const contactsOperations = {
+  fetchedContacts,
+  addContact,
+  deleteContact,
+  patchContact,
+};
+
+export default contactsOperations;

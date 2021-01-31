@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from '../../redux/operations';
-import { getAllContacts } from '../../redux/selectors';
+import { contactsSelectors, contactsOperations } from '../../redux/contacts';
 
 import s from './ContactForm.module.scss';
 
-import { v4 as uuidv4 } from 'uuid';
-
 const ContactForm = () => {
   const [name, setName] = useState('');
-  const [phone, setNumber] = useState('');
+  const [number, setNumber] = useState('');
 
-  const allContacts = useSelector(getAllContacts);
+  const allContacts = useSelector(contactsSelectors.getAllContacts);
   const dispatch = useDispatch();
 
   const addUnicContactToList = newContact => {
@@ -23,16 +20,15 @@ const ContactForm = () => {
         return;
       }
     }
-    dispatch(addContact(newContact));
+    dispatch(contactsOperations.addContact(newContact));
   };
 
   const onSubmitHandler = event => {
     event.preventDefault();
-    if (name && phone) {
+    if (name && number) {
       addUnicContactToList({
-        id: uuidv4(),
         name,
-        phone,
+        number,
       });
     }
     setName('');
@@ -72,7 +68,7 @@ const ContactForm = () => {
             className={s.ContactForm__input}
             type="text"
             name="number"
-            value={phone}
+            value={number}
             onChange={onChangeInputHandler}
           />
         </label>
