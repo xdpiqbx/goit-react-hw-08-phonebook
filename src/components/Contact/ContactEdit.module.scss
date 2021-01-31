@@ -1,0 +1,20 @@
+.listItem {
+  box-sizing: border-box;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 100px 100px;
+  column-gap: 10px;
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 4px;
+  align-items: center;
+  justify-items: stretch;
+  button {
+    height: 95%;
+  }
+  input {
+    height: 95%;
+    box-sizing: border-box;
+    width: 100%;
+  }
+}

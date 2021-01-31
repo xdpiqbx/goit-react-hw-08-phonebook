@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import TextField from '@material-ui/core/TextField';
 import { filterContacts } from '../../redux/contacts/contacts-actions';
 import { contactsSelectors } from '../../redux/contacts';
 
@@ -11,9 +12,10 @@ const Filter = () => {
   const dispatch = useDispatch();
   return (
     <div className={s.container}>
-      <h3>Find contacts by name</h3>
-      <input
-        name="filter"
+      <TextField
+        id="outlined-basic"
+        label="Find contacts by name"
+        variant="outlined"
         value={filter}
         onChange={event => dispatch(filterContacts(event.target.value))}
       />

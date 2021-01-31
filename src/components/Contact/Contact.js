@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { contactsOperations } from '../../redux/contacts';
+import { useDispatch, useSelector } from 'react-redux';
+import { contactsOperations, contactsSelectors } from '../../redux/contacts';
 
-import s from './Contact.module.scss';
+import ContactEdit from './ContactEdit';
+import ContactListItem from './ContactListItem';
 
 const Contact = ({ contact: { name, number, id } }) => {
   const dispatch = useDispatch();
@@ -16,13 +17,28 @@ const Contact = ({ contact: { name, number, id } }) => {
     setEditContactId(id);
   };
 
+  const allContacts = useSelector(contactsSelectors.getAllContacts);
+
+  const addUnicContactToList = newContact => {
+    const res = allContacts.find(
+      contact =>
+        contact.name === newContact.name &&
+        contact.number === newContact.number,
+    );
+    if (res) return;
+    dispatch(contactsOperations.patchContact(editContactId, newContact));
+  };
+
   const saveEditedHandler = () => {
-    dispatch(
-      contactsOperations.patchContact(editContactId, {
+    if (editedName && editedNumber) {
+      addUnicContactToList({
         name: editedName,
         number: editedNumber,
-      }),
-    );
+      });
+    } else {
+      setEditedName(name);
+      setEditedNumber(number);
+    }
     setEditContactId('');
   };
 
@@ -40,59 +56,29 @@ const Contact = ({ contact: { name, number, id } }) => {
     }
   };
 
+  const deleteContactHandler = id => {
+    dispatch(contactsOperations.deleteContact(id));
+  };
+
   if (editContactId === id) {
     return (
-      <li className={s.listItem}>
-        <label>
-          <input
-            // className={s.ContactForm__input}
-            type="text"
-            name="name"
-            value={editedName}
-            onChange={onChangeInputHandler}
-          />
-        </label>
-        <label>
-          <input
-            // className={s.ContactForm__input}
-            type="text"
-            name="number"
-            value={editedNumber}
-            onChange={onChangeInputHandler}
-          />
-        </label>
-        <button className={s.btn} type="button" onClick={saveEditedHandler}>
-          Save
-        </button>
-        <button
-          className={s.btn}
-          type="button"
-          onClick={() => setEditContactId('')}
-        >
-          Cancel
-        </button>
-      </li>
+      <ContactEdit
+        editedName={editedName}
+        editedNumber={editedNumber}
+        onChangeInputHandler={onChangeInputHandler}
+        saveEditedHandler={saveEditedHandler}
+        setEditContactId={setEditContactId}
+      />
     );
   } else {
     return (
-      <li className={s.listItem}>
-        <span className={s.name}>{name}: </span>
-        <span className={s.number}>{number}</span>
-        <button
-          className={s.btn}
-          type="button"
-          onClick={() => dispatch(contactsOperations.deleteContact(id))}
-        >
-          Delete
-        </button>
-        <button
-          className={s.btn}
-          type="button"
-          onClick={() => editIdHandler(id)}
-        >
-          Edit
-        </button>
-      </li>
+      <ContactListItem
+        id={id}
+        name={name}
+        number={number}
+        deleteContactHandler={deleteContactHandler}
+        editIdHandler={editIdHandler}
+      />
     );
   }
 };

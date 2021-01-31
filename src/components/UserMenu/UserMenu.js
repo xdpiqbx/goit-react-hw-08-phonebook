@@ -1,5 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { authOperations, authSelectors } from '../../redux/auth';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Button from '@material-ui/core/Button';
 import defaultAvatar from './default-avatar.png';
 
 const styles = {
@@ -18,16 +20,22 @@ const styles = {
 
 export default function UserMenu() {
   const dispatch = useDispatch();
-  const name = useSelector(authSelectors.getUsername);
+  const email = useSelector(authSelectors.getUserEmail);
   const avatar = defaultAvatar;
 
   return (
     <div style={styles.container}>
       <img src={avatar} alt="" width="32" style={styles.avatar} />
-      <span style={styles.name}>Добро пожаловать, {name}</span>
-      <button type="button" onClick={() => dispatch(authOperations.logOut())}>
-        Выйти
-      </button>
+      <span style={styles.name}>{email}</span>
+      <Button
+        variant="contained"
+        color="primary"
+        type="submit"
+        startIcon={<ExitToAppIcon />}
+        onClick={() => dispatch(authOperations.logOut())}
+      >
+        Exit
+      </Button>
     </div>
   );
 }

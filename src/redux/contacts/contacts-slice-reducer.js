@@ -39,7 +39,9 @@ const contactsSliceReducer = createSlice({
     },
     [patchContactSuccess](state, action) {
       state.loading = false;
-      state.items = state.items.filter(({ id }) => id !== action.payload);
+      state.items = state.items.map(item =>
+        item.id === action.payload.id ? action.payload : item,
+      );
     },
 
     [filterContacts](state, action) {

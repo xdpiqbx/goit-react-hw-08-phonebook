@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import { contactsSelectors, contactsOperations } from '../../redux/contacts';
 
 import s from './ContactForm.module.scss';
@@ -52,29 +53,25 @@ const ContactForm = () => {
   return (
     <div className={s.ContactForm}>
       <form onSubmit={onSubmitHandler}>
-        <label>
-          <span className={s.ContactForm__title}>Name</span>
-          <input
-            className={s.ContactForm__input}
-            type="text"
-            name="name"
-            value={name}
-            onChange={onChangeInputHandler}
-          />
-        </label>
-        <label>
-          <span className={s.ContactForm__title}>Phone</span>
-          <input
-            className={s.ContactForm__input}
-            type="text"
-            name="number"
-            value={number}
-            onChange={onChangeInputHandler}
-          />
-        </label>
-        <button className={s.ContactForm__btn} type="submit">
+        <TextField
+          id="outlined-basic"
+          label="Name"
+          variant="outlined"
+          name="name"
+          value={name}
+          onChange={onChangeInputHandler}
+        />
+        <TextField
+          id="outlined-basic"
+          label="Phone"
+          variant="outlined"
+          name="number"
+          value={number}
+          onChange={onChangeInputHandler}
+        />
+        <Button variant="contained" color="primary" type="submit">
           Add contact
-        </button>
+        </Button>
       </form>
     </div>
   );
