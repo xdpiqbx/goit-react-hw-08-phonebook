@@ -18,9 +18,10 @@ const App = () => {
   const isFetchingCurrentUser = useSelector(
     authSelectors.getIsFetchingCurrentUser,
   );
+  const token = useSelector(authSelectors.getToken);
 
   useEffect(() => {
-    dispatch(authOperations.fetchCurrentUser());
+    dispatch(authOperations.fetchCurrentUser(token));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
